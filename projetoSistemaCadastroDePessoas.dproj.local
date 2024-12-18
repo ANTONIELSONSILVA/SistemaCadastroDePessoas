@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/12/18 08:34:31.000.226,=C:\Users\Antonielson\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:11:59.487,=C:\Users\Antonielson\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:14:31.240,C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\View\frmCadastroPessoas.dfm=C:\Users\Antonielson\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2024/12/18 20:14:31.240,C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\View\frmCadastroPessoas.pas=C:\Users\Antonielson\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:14:49.608,C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\projetoSistemaCadastroDePessoas.dproj=C:\Users\Antonielson\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/12/18 20:15:03.973,=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:16:16.777,C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Model\DMConexao.dfm=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Unit1.dfm</Transaction>
+    <Transaction>2024/12/18 20:16:16.777,C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Model\DMConexao.pas=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:16:44.100,=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:17:03.258,C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Controller\controlePessoas.pas=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:18:32.505,=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Unit1.pas</Transaction>
+    <Transaction>2024/12/18 20:18:46.608,C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Model\modelPessoas.pas=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
