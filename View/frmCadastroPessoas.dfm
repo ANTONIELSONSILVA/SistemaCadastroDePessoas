@@ -172,7 +172,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
           TabOrder = 9
           Text = ''
         end
-        object ComboBox1: TComboBox
+        object cbTipoPessoa: TComboBox
           Left = 32
           Top = 32
           Width = 409

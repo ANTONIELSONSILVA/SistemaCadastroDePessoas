@@ -8,7 +8,7 @@ uses
 type
   TPessoa = record
     ID: Integer;
-    Tipo: string; // Cliente, Fornecedor, Transportador, etc.
+    Tipo: string;
     NomeCompleto: string;
     DataNascimento: TDateTime;
     CPF: string;
@@ -21,6 +21,7 @@ type
     Cidade: string;
     Estado: string;
   end;
+
 
   TModelPessoas = class
   private

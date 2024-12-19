@@ -98,7 +98,6 @@ end;
 function TControlePessoas.BuscarEnderecoPorCEP(const CEP: string): TPessoa;
 var
   JSONResponse: TJSONObject;
-  JSONValue: TJSONValue;
   JSONData: string;
 begin
   JSONData := ConsultarViaCEP(CEP);
@@ -115,6 +114,7 @@ begin
     JSONResponse.Free;
   end;
 end;
+
 
 end.
 
