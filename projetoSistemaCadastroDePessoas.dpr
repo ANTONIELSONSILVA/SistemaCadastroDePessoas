@@ -1,7 +1,7 @@
 program projetoSistemaCadastroDePessoas;
 
 uses
-  Vcl.Forms,
+  Vcl.Forms,FireDAC.DApt,
   frmCadastroPessoas in 'View\frmCadastroPessoas.pas' {frmCadastroDePessoas},
   controlePessoas in 'Controller\controlePessoas.pas',
   modelPessoas in 'Model\modelPessoas.pas',
@@ -12,7 +12,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TfrmCadastroDePessoas, frmCadastroDePessoas);
   Application.CreateForm(TDataModuleConexao, DataModuleConexao);
+  Application.CreateForm(TfrmCadastroDePessoas, frmCadastroDePessoas);
   Application.Run;
 end.

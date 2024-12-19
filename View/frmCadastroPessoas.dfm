@@ -138,6 +138,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
           TabOrder = 6
           Text = ''
           TextHint = '0000-000'
+          OnExit = ledCEPExit
         end
         object ledBairro: TLabeledEdit
           Left = 536
@@ -214,6 +215,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
             B46B3B3B6B3B3BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
             00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
           TabOrder = 11
+          OnClick = btnSalvarClick
         end
         object btnCancelar: TBitBtn
           Left = 752
@@ -249,6 +251,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
             3B6B3B3BFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
             00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
           TabOrder = 12
+          OnClick = btnCancelarClick
         end
       end
     end
