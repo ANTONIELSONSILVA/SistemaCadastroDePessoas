@@ -4,13 +4,12 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls;
 
 type
   TForm1 = class(TForm)
-    pcCadastro: TPageControl;
-    CADATRO: TTabSheet;
-    TabSheet2: TTabSheet;
+    Panel1: TPanel;
+    Panel2: TPanel;
   private
     { Private declarations }
   public
