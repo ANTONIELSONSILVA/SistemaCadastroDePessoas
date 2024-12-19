@@ -61,7 +61,7 @@ begin
   try
     Query.Connection := Conexao;
     Query.SQL.Text :=
-      'INSERT INTO pessoas (tipo, nome_completo, data_nascimento, cpf, rg, email, telefone, ' +
+      'INSERT INTO pessoa (tipo, nome_completo, data_nascimento, cpf, rg, email, telefone, ' +
       'cep, logradouro, bairro, cidade, estado) ' +
       'VALUES (:tipo, :nome_completo, :data_nascimento, :cpf, :rg, :email, :telefone, ' +
       ':cep, :logradouro, :bairro, :cidade, :estado)';
@@ -93,7 +93,7 @@ begin
   try
     Query.Connection := Conexao;
     Query.SQL.Text :=
-      'UPDATE pessoas SET tipo = :tipo, nome_completo = :nome_completo, ' +
+      'UPDATE pessoa SET tipo = :tipo, nome_completo = :nome_completo, ' +
       'data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, email = :email, telefone = :telefone, ' +
       'cep = :cep, logradouro = :logradouro, bairro = :bairro, cidade = :cidade, estado = :estado ' +
       'WHERE id = :id';
@@ -125,7 +125,7 @@ begin
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := Conexao;
-    Query.SQL.Text := 'DELETE FROM pessoas WHERE id = :id';
+    Query.SQL.Text := 'DELETE FROM pessoa WHERE id = :id';
     Query.ParamByName('id').AsInteger := ID;
     Query.ExecSQL;
     Result := True;
@@ -143,12 +143,12 @@ begin
     Query.Connection := Conexao;
     if Filtro.Trim <> '' then
     begin
-      Query.SQL.Text := 'SELECT * FROM pessoas WHERE nome_completo LIKE :filtro ORDER BY nome_completo';
+      Query.SQL.Text := 'SELECT * FROM pessoa WHERE nome_completo LIKE :filtro ORDER BY nome_completo';
       Query.ParamByName('filtro').AsString := '%' + Filtro + '%';
     end
     else
     begin
-      Query.SQL.Text := 'SELECT * FROM pessoas ORDER BY nome_completo';
+      Query.SQL.Text := 'SELECT * FROM pessoa ORDER BY nome_completo';
     end;
     Query.Open;
     Result := Query;
@@ -165,7 +165,7 @@ begin
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := Conexao;
-    Query.SQL.Text := 'SELECT COUNT(*) AS Total FROM pessoas WHERE cpf = :cpf';
+    Query.SQL.Text := 'SELECT COUNT(*) AS Total FROM pessoa WHERE cpf = :cpf';
     Query.ParamByName('cpf').AsString := CPF;
     Query.Open;
     Result := Query.FieldByName('Total').AsInteger = 0;
