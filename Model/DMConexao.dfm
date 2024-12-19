@@ -1,9 +1,9 @@
-object DataModule1: TDataModule1
+object DataModuleConexao: TDataModuleConexao
   Height = 395
   Width = 481
   PixelsPerInch = 144
-  object FDConnection1: TFDConnection
-    Left = 376
-    Top = 40
+  object FDConexao: TFDConnection
+    Left = 216
+    Top = 144
   end
 end

@@ -9,16 +9,17 @@ uses
   Data.DB, FireDAC.Comp.Client;
 
 type
-  TDataModule1 = class(TDataModule)
-    FDConnection1: TFDConnection;
+  TDataModuleConexao = class(TDataModule) // Altere para TDataModuleConexao
   private
-    { Private declarations }
+    Conexao: TFDConnection;
+    procedure ConfigurarConexaoSQLite;
   public
-    { Public declarations }
+    procedure ConectarBanco;
+    function ObterConexao: TFDConnection;
   end;
 
 var
-  DataModule1: TDataModule1;
+  DataModuleConexao: TDataModuleConexao;
 
 implementation
 
@@ -26,4 +27,36 @@ implementation
 
 {$R *.dfm}
 
+function TDataModuleConexao.ObterConexao: TFDConnection;
+begin
+  Result := Conexao;
+end;
+
+procedure TDataModuleConexao.ConectarBanco;
+begin
+  try
+    ConfigurarConexaoSQLite;
+    Conexao.Open;
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao conectar ao banco SQLite: ' + E.Message);
+  end;
+end;
+
+procedure TDataModuleConexao.ConfigurarConexaoSQLite;
+var
+  CaminhoBanco: string;
+begin
+  CaminhoBanco := ExtractFilePath(ParamStr(0)) + 'bancoDados.db';
+
+  Conexao.Close;
+  Conexao.Params.Clear;
+  Conexao.DriverName := 'SQLite';
+  Conexao.Params.Add('Database=' + CaminhoBanco);
+  Conexao.Params.Add('OpenMode=ReadWrite');
+  Conexao.Params.Add('LockingMode=Normal');
+  Conexao.Params.Add('Synchronous=Normal');
+end;
+
 end.
+
