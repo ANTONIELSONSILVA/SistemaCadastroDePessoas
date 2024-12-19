@@ -61,22 +61,22 @@ begin
   try
     Query.Connection := Conexao;
     Query.SQL.Text :=
-      'INSERT INTO pessoa (tipo, nome_completo, data_nascimento, cpf, rg, email, telefone, ' +
-      'cep, logradouro, bairro, cidade, estado) ' +
-      'VALUES (:tipo, :nome_completo, :data_nascimento, :cpf, :rg, :email, :telefone, ' +
-      ':cep, :logradouro, :bairro, :cidade, :estado)';
-    Query.ParamByName('tipo').AsString := Pessoa.Tipo;
-    Query.ParamByName('nome_completo').AsString := Pessoa.NomeCompleto;
-    Query.ParamByName('data_nascimento').AsDateTime := Pessoa.DataNascimento;
-    Query.ParamByName('cpf').AsString := Pessoa.CPF;
-    Query.ParamByName('rg').AsString := Pessoa.RG;
-    Query.ParamByName('email').AsString := Pessoa.Email;
-    Query.ParamByName('telefone').AsString := Pessoa.Telefone;
-    Query.ParamByName('cep').AsString := Pessoa.CEP;
-    Query.ParamByName('logradouro').AsString := Pessoa.Logradouro;
-    Query.ParamByName('bairro').AsString := Pessoa.Bairro;
-    Query.ParamByName('cidade').AsString := Pessoa.Cidade;
-    Query.ParamByName('estado').AsString := Pessoa.Estado;
+      'INSERT INTO pessoa (Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, ' +
+      'CEP, Logradouro, Bairro, Cidade, Estado) ' +
+      'VALUES (:Tipo, :NomeCompleto, :DataNascimento, :CPF, :RG, :Email, :Telefone, ' +
+      ':CEP, :Logradouro, :Bairro, :Cidade, :Estado)';
+    Query.ParamByName('Tipo').AsString := Pessoa.Tipo;
+    Query.ParamByName('NomeCompleto').AsString := Pessoa.NomeCompleto;
+    Query.ParamByName('DataNascimento').AsString := FormatDateTime('yyyy-mm-dd', Pessoa.DataNascimento);
+    Query.ParamByName('CPF').AsString := Pessoa.CPF;
+    Query.ParamByName('RG').AsString := Pessoa.RG;
+    Query.ParamByName('Email').AsString := Pessoa.Email;
+    Query.ParamByName('Telefone').AsString := Pessoa.Telefone;
+    Query.ParamByName('CEP').AsString := Pessoa.CEP;
+    Query.ParamByName('Logradouro').AsString := Pessoa.Logradouro;
+    Query.ParamByName('Bairro').AsString := Pessoa.Bairro;
+    Query.ParamByName('Cidade').AsString := Pessoa.Cidade;
+    Query.ParamByName('Estado').AsString := Pessoa.Estado;
     Query.ExecSQL;
     Result := True;
   finally
@@ -93,23 +93,23 @@ begin
   try
     Query.Connection := Conexao;
     Query.SQL.Text :=
-      'UPDATE pessoa SET tipo = :tipo, nome_completo = :nome_completo, ' +
-      'data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, email = :email, telefone = :telefone, ' +
-      'cep = :cep, logradouro = :logradouro, bairro = :bairro, cidade = :cidade, estado = :estado ' +
-      'WHERE id = :id';
-    Query.ParamByName('tipo').AsString := Pessoa.Tipo;
-    Query.ParamByName('nome_completo').AsString := Pessoa.NomeCompleto;
-    Query.ParamByName('data_nascimento').AsDateTime := Pessoa.DataNascimento;
-    Query.ParamByName('cpf').AsString := Pessoa.CPF;
-    Query.ParamByName('rg').AsString := Pessoa.RG;
-    Query.ParamByName('email').AsString := Pessoa.Email;
-    Query.ParamByName('telefone').AsString := Pessoa.Telefone;
-    Query.ParamByName('cep').AsString := Pessoa.CEP;
-    Query.ParamByName('logradouro').AsString := Pessoa.Logradouro;
-    Query.ParamByName('bairro').AsString := Pessoa.Bairro;
-    Query.ParamByName('cidade').AsString := Pessoa.Cidade;
-    Query.ParamByName('estado').AsString := Pessoa.Estado;
-    Query.ParamByName('id').AsInteger := Pessoa.ID;
+      'UPDATE pessoa SET Tipo = :Tipo, NomeCompleto = :NomeCompleto, ' +
+      'DataNascimento = :DataNascimento, CPF = :CPF, RG = :RG, Email = :Email, Telefone = :Telefone, ' +
+      'CEP = :CEP, Logradouro = :Logradouro, Bairro = :Bairro, Cidade = :Cidade, Estado = :Estado ' +
+      'WHERE ID = :ID';
+    Query.ParamByName('Tipo').AsString := Pessoa.Tipo;
+    Query.ParamByName('NomeCompleto').AsString := Pessoa.NomeCompleto;
+    Query.ParamByName('DataNascimento').AsString := FormatDateTime('yyyy-mm-dd', Pessoa.DataNascimento);
+    Query.ParamByName('CPF').AsString := Pessoa.CPF;
+    Query.ParamByName('RG').AsString := Pessoa.RG;
+    Query.ParamByName('Email').AsString := Pessoa.Email;
+    Query.ParamByName('Telefone').AsString := Pessoa.Telefone;
+    Query.ParamByName('CEP').AsString := Pessoa.CEP;
+    Query.ParamByName('Logradouro').AsString := Pessoa.Logradouro;
+    Query.ParamByName('Bairro').AsString := Pessoa.Bairro;
+    Query.ParamByName('Cidade').AsString := Pessoa.Cidade;
+    Query.ParamByName('Estado').AsString := Pessoa.Estado;
+    Query.ParamByName('ID').AsInteger := Pessoa.ID;
     Query.ExecSQL;
     Result := True;
   finally
@@ -125,8 +125,8 @@ begin
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := Conexao;
-    Query.SQL.Text := 'DELETE FROM pessoa WHERE id = :id';
-    Query.ParamByName('id').AsInteger := ID;
+    Query.SQL.Text := 'DELETE FROM pessoa WHERE ID = :ID';
+    Query.ParamByName('ID').AsInteger := ID;
     Query.ExecSQL;
     Result := True;
   finally
@@ -143,12 +143,12 @@ begin
     Query.Connection := Conexao;
     if Filtro.Trim <> '' then
     begin
-      Query.SQL.Text := 'SELECT * FROM pessoa WHERE nome_completo LIKE :filtro ORDER BY nome_completo';
-      Query.ParamByName('filtro').AsString := '%' + Filtro + '%';
+      Query.SQL.Text := 'SELECT * FROM pessoa WHERE NomeCompleto LIKE :Filtro ORDER BY NomeCompleto';
+      Query.ParamByName('Filtro').AsString := '%' + Filtro + '%';
     end
     else
     begin
-      Query.SQL.Text := 'SELECT * FROM pessoa ORDER BY nome_completo';
+      Query.SQL.Text := 'SELECT * FROM pessoa ORDER BY NomeCompleto';
     end;
     Query.Open;
     Result := Query;
@@ -165,8 +165,8 @@ begin
   Query := TFDQuery.Create(nil);
   try
     Query.Connection := Conexao;
-    Query.SQL.Text := 'SELECT COUNT(*) AS Total FROM pessoa WHERE cpf = :cpf';
-    Query.ParamByName('cpf').AsString := CPF;
+    Query.SQL.Text := 'SELECT COUNT(*) AS Total FROM pessoa WHERE CPF = :CPF';
+    Query.ParamByName('CPF').AsString := CPF;
     Query.Open;
     Result := Query.FieldByName('Total').AsInteger = 0;
   finally
@@ -175,4 +175,3 @@ begin
 end;
 
 end.
-
