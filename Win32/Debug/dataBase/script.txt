@@ -1,0 +1,20 @@
+ALTER TABLE pessoa RENAME TO pessoa_old;
+
+CREATE TABLE pessoa (
+  ID INTEGER PRIMARY KEY,
+  Tipo TEXT,
+  NomeCompleto VARCHAR(255),
+  DataNascimento DATE,
+  CPF VARCHAR(14),
+  RG VARCHAR(20),
+  Email VARCHAR(255),
+  Telefone VARCHAR(20),
+  CEP VARCHAR(10),
+  Logradouro VARCHAR(255),
+  Bairro VARCHAR(100),
+  Cidade VARCHAR(100),
+  Estado VARCHAR(2)
+);
+
+INSERT INTO pessoa SELECT * FROM pessoa_old;
+DROP TABLE pessoa_old;

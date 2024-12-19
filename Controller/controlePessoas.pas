@@ -18,6 +18,7 @@ type
     function EditarPessoa(const Pessoa: TPessoa): Boolean;
     function ExcluirPessoa(const ID: Integer): Boolean;
     function ListarPessoas(const Filtro: string = ''): TFDQuery;
+    function ListarTodos: TFDQuery;
     function BuscarEnderecoPorCEP(const CEP: string): TPessoa;
   end;
 
@@ -55,7 +56,8 @@ begin
   HTTP := TIdHTTP.Create(nil);
   try
     try
-      Response := HTTP.Get('https://viacep.com.br/ws/' + CEP + '/json/');
+      //Response := HTTP.Get('https://viacep.com.br/ws/' + CEP + '/json/');
+      Response := HTTP.Get('http://localhost:5000/consulta-cep?cep=' +CEP);
       Result := Response;
     except
       on E: Exception do
@@ -113,6 +115,11 @@ begin
   finally
     JSONResponse.Free;
   end;
+end;
+
+function TControlePessoas.ListarTodos: TFDQuery;
+begin
+  Result := Model.BuscarTodos;
 end;
 
 

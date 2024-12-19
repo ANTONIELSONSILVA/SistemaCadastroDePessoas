@@ -34,6 +34,7 @@ type
     function DeletarPessoa(const ID: Integer): Boolean;
     function BuscarPessoas(const Filtro: string = ''): TFDQuery;
     function ValidarCPFUnico(const CPF: string): Boolean;
+    function BuscarTodos: TFDQuery;
   end;
 
 implementation
@@ -171,6 +172,23 @@ begin
     Result := Query.FieldByName('Total').AsInteger = 0;
   finally
     Query.Free;
+  end;
+end;
+
+
+function TModelPessoas.BuscarTodos: TFDQuery;
+var
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := Conexao;
+    Query.SQL.Text := 'SELECT * FROM pessoa';
+    Query.Open;
+    Result := Query;
+  except
+    Query.Free;
+    raise;
   end;
 end;
 

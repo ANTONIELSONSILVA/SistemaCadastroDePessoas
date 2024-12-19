@@ -2,31 +2,31 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
   Left = 0
   Top = 0
   Caption = 'Cadastro De Pessoas'
-  ClientHeight = 632
-  ClientWidth = 1154
+  ClientHeight = 614
+  ClientWidth = 1144
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OnClose = FormClose
+  OnShow = FormShow
   TextHeight = 15
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 1154
-    Height = 632
+    Width = 1144
+    Height = 614
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1144
-    ExplicitHeight = 498
     object TabSheet1: TTabSheet
       Caption = 'CADASTRO'
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1146
+        Width = 1136
         Height = 73
         Align = alTop
         Caption = 'Cadastro do Pessoas'
@@ -37,15 +37,15 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 1146
       end
       object Panel2: TPanel
         Left = 0
         Top = 73
-        Width = 1146
-        Height = 529
+        Width = 1136
+        Height = 511
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 413
         object lbTipoPessoa: TLabel
           Left = 32
           Top = 11
@@ -140,7 +140,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         end
         object ledBairro: TLabeledEdit
           Left = 536
-          Top = 128
+          Top = 177
           Width = 569
           Height = 23
           EditLabel.Width = 34
@@ -151,7 +151,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         end
         object ledCidade: TLabeledEdit
           Left = 536
-          Top = 177
+          Top = 224
           Width = 569
           Height = 23
           EditLabel.Width = 40
@@ -162,7 +162,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         end
         object ledEstado: TLabeledEdit
           Left = 536
-          Top = 80
+          Top = 128
           Width = 569
           Height = 23
           EditLabel.Width = 38
@@ -251,6 +251,17 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
           TabOrder = 12
           OnClick = btnCancelarClick
         end
+        object ledLogradouro: TLabeledEdit
+          Left = 536
+          Top = 80
+          Width = 569
+          Height = 23
+          EditLabel.Width = 65
+          EditLabel.Height = 15
+          EditLabel.Caption = 'Logradouro:'
+          TabOrder = 13
+          Text = ''
+        end
       end
     end
     object TabSheet2: TTabSheet
@@ -270,6 +281,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 1136
       end
       object Panel4: TPanel
         Left = 0
@@ -278,7 +290,6 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Height = 529
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 3
         ExplicitTop = 79
         object grdDados: TDBGrid
           Left = 0
@@ -286,12 +297,58 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
           Width = 1145
           Height = 353
           DataSource = dtsListagem
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
           TitleFont.Height = -12
           TitleFont.Name = 'Segoe UI'
           TitleFont.Style = []
+        end
+        object DBNavigator1: TDBNavigator
+          Left = 320
+          Top = 359
+          Width = 384
+          Height = 33
+          DataSource = dtsListagem
+          VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+          TabOrder = 1
+        end
+        object btnApagar: TBitBtn
+          Left = 394
+          Top = 427
+          Width = 199
+          Height = 62
+          Caption = 'APAGA&R'
+          Glyph.Data = {
+            36030000424D3603000000000000360000002800000010000000100000000100
+            18000000000000030000120B0000120B00000000000000000000FF00FFFF00FF
+            2D2BAA252595FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF0101
+            60000073FF00FFFF00FFFF00FF3836B61111B81C1CB82F2FA4FF00FFFF00FFFF
+            00FFFF00FFFF00FFFF00FF06066D01018A00008B020074FF00FF3F3FBB1616C5
+            0A0AC20A0AC02222C43737ADFF00FFFF00FFFF00FFFF00FF11117B0505910000
+            9000009000008B0200743B3BB22C2CD30D0DD00D0DCE0C0CC92828CC3D3DB4FF
+            00FFFF00FF1F1F8E0C0C9F00009200009000009000008800005DFF00FF4747C1
+            3333DE1111DA0F0FD50D0DCF2A2AD13C3CB42F2FA41717B40303A30101990000
+            91010189010160FF00FFFF00FFFF00FF5454CC3C3CE71313E11111DA0E0ED328
+            28CF2222C60707B50505AA0303A0060693050566FF00FFFF00FFFF00FFFF00FF
+            FF00FF5C5CD33F3FEA1414E31111DC0E0ED10C0CC70909BC0606B10D0DA40E0E
+            77FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF5B5BD03D3DE61414E311
+            11DA0D0DCF0A0AC21616B5181886FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
+            FF00FFFF00FF6E6ECE5B5BE92020E71313E10F0FD40C0CC91616B7181887FF00
+            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF7878CE7474E75353EE4848ED35
+            35E92020DD1111CE0A0ABF0F0FAB0E0E79FF00FFFF00FFFF00FFFF00FFFF00FF
+            7F7FCB8787E56D6DF26363F05757EF5C5CDE5252D83B3BDA2D2DCE1F1FC01818
+            A5111176FF00FFFF00FFFF00FF8484C79797E38484F47B7BF37070F27272E05B
+            5BBB4D4DB15151CF4141D43838C92F2FBD2929A51B1B78FF00FF8686C2A0A0E0
+            9999F69191F68888F48383DE6767BCFF00FFFF00FF4747A55050C54242CB3737
+            C02E2EB52929A01D1D7A9393B7A5A5EAA1A1F79A9AF69292DD6E6EBDFF00FFFF
+            00FFFF00FFFF00FF3F3F9C4A4ABC3B3BC03232B52D2DA92B2B8EFF00FF9594B6
+            A7A7E99D9DDC7676BBFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF3C3C984141
+            B53535B0343495FF00FFFF00FFFF00FF9796B68080C0FF00FFFF00FFFF00FFFF
+            00FFFF00FFFF00FFFF00FFFF00FF3636933E3E9AFF00FFFF00FF}
+          TabOrder = 2
+          OnClick = btnApagarClick
         end
       end
     end
