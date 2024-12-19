@@ -2,7 +2,7 @@ program projetoSistemaCadastroDePessoas;
 
 uses
   Vcl.Forms,
-  frmCadastroPessoas in 'View\frmCadastroPessoas.pas' {Form1},
+  frmCadastroPessoas in 'View\frmCadastroPessoas.pas' {frmCadastroDePessoas},
   DMConexao in 'Model\DMConexao.pas' {DataModuleConexao: TDataModule},
   controlePessoas in 'Controller\controlePessoas.pas',
   modelPessoas in 'Model\modelPessoas.pas';
@@ -12,7 +12,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm1, Form1);
-  Application.CreateForm(TDataModuleConexao, DataModuleConexao);
+  Application.CreateForm(TfrmCadastroDePessoas, frmCadastroDePessoas);
   Application.Run;
 end.
