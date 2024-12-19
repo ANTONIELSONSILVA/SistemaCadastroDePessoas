@@ -31,7 +31,6 @@ type
     Panel3: TPanel;
     Panel4: TPanel;
     grdDados: TDBGrid;
-    dtsListagem: TDataSource;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure ledCEPExit(Sender: TObject);

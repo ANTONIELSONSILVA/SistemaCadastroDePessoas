@@ -285,6 +285,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
           Top = 0
           Width = 1145
           Height = 353
+          DataSource = dtsListagem
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
@@ -294,5 +295,9 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         end
       end
     end
+  end
+  object dtsListagem: TDataSource
+    Left = 1036
+    Top = 42
   end
 end
