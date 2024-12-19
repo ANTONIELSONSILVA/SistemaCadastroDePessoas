@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Buttons, controlePessoas, modelPessoas,
-  Vcl.Mask;
+  Vcl.Mask,FireDAC.Comp.Client;
 
 type
   TfrmCadastroDePessoas = class(TForm)

@@ -3,7 +3,7 @@ unit modelPessoas;
 interface
 
 uses
-  System.SysUtils, FireDAC.Comp.Client, Data.DB, DMConexao;
+  System.SysUtils, Data.DB, DMConexao, FireDAC.Comp.Client;
 
 type
   TPessoa = record

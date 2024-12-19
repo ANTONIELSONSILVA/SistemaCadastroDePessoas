@@ -1,0 +1,19 @@
+object DataModuleConexao: TDataModuleConexao
+  Height = 395
+  Width = 481
+  PixelsPerInch = 144
+  object Conexao: TFDConnection
+    Params.Strings = (
+      'DriverID=SQLite'
+      'OpenMode=ReadWrite'
+      'LockingMode=Normal'
+      'Synchronous=Normal')
+    Connected = True
+    Left = 88
+    Top = 88
+  end
+  object FDConnection: TFDConnection
+    Left = 344
+    Top = 88
+  end
+end

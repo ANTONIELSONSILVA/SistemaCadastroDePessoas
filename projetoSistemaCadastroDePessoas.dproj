@@ -104,13 +104,13 @@
             <Form>frmCadastroDePessoas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Controller\controlePessoas.pas"/>
+        <DCCReference Include="Model\modelPessoas.pas"/>
         <DCCReference Include="Model\DMConexao.pas">
             <Form>DataModuleConexao</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="Controller\controlePessoas.pas"/>
-        <DCCReference Include="Model\modelPessoas.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

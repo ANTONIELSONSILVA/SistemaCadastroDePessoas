@@ -1,0 +1,178 @@
+unit modelPessoas;
+
+interface
+
+uses
+  System.SysUtils, FireDAC.Comp.Client, Data.DB, DMConexao, FireDAC.Comp.Client;
+
+type
+  TPessoa = record
+    ID: Integer;
+    Tipo: string;
+    NomeCompleto: string;
+    DataNascimento: TDateTime;
+    CPF: string;
+    RG: string;
+    Email: string;
+    Telefone: string;
+    CEP: string;
+    Logradouro: string;
+    Bairro: string;
+    Cidade: string;
+    Estado: string;
+  end;
+
+
+  TModelPessoas = class
+  private
+    Conexao: TFDConnection;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function InserirPessoa(const Pessoa: TPessoa): Boolean;
+    function AtualizarPessoa(const Pessoa: TPessoa): Boolean;
+    function DeletarPessoa(const ID: Integer): Boolean;
+    function BuscarPessoas(const Filtro: string = ''): TFDQuery;
+    function ValidarCPFUnico(const CPF: string): Boolean;
+  end;
+
+implementation
+
+{ TModelPessoas }
+
+constructor TModelPessoas.Create;
+begin
+  inherited Create;
+  Conexao := DataModuleConexao.ObterConexao;
+end;
+
+destructor TModelPessoas.Destroy;
+begin
+  // Destruir recursos se necessário
+  inherited Destroy;
+end;
+
+function TModelPessoas.InserirPessoa(const Pessoa: TPessoa): Boolean;
+var
+  Query: TFDQuery;
+begin
+  Result := False;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := Conexao;
+    Query.SQL.Text :=
+      'INSERT INTO pessoas (tipo, nome_completo, data_nascimento, cpf, rg, email, telefone, ' +
+      'cep, logradouro, bairro, cidade, estado) ' +
+      'VALUES (:tipo, :nome_completo, :data_nascimento, :cpf, :rg, :email, :telefone, ' +
+      ':cep, :logradouro, :bairro, :cidade, :estado)';
+    Query.ParamByName('tipo').AsString := Pessoa.Tipo;
+    Query.ParamByName('nome_completo').AsString := Pessoa.NomeCompleto;
+    Query.ParamByName('data_nascimento').AsDateTime := Pessoa.DataNascimento;
+    Query.ParamByName('cpf').AsString := Pessoa.CPF;
+    Query.ParamByName('rg').AsString := Pessoa.RG;
+    Query.ParamByName('email').AsString := Pessoa.Email;
+    Query.ParamByName('telefone').AsString := Pessoa.Telefone;
+    Query.ParamByName('cep').AsString := Pessoa.CEP;
+    Query.ParamByName('logradouro').AsString := Pessoa.Logradouro;
+    Query.ParamByName('bairro').AsString := Pessoa.Bairro;
+    Query.ParamByName('cidade').AsString := Pessoa.Cidade;
+    Query.ParamByName('estado').AsString := Pessoa.Estado;
+    Query.ExecSQL;
+    Result := True;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TModelPessoas.AtualizarPessoa(const Pessoa: TPessoa): Boolean;
+var
+  Query: TFDQuery;
+begin
+  Result := False;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := Conexao;
+    Query.SQL.Text :=
+      'UPDATE pessoas SET tipo = :tipo, nome_completo = :nome_completo, ' +
+      'data_nascimento = :data_nascimento, cpf = :cpf, rg = :rg, email = :email, telefone = :telefone, ' +
+      'cep = :cep, logradouro = :logradouro, bairro = :bairro, cidade = :cidade, estado = :estado ' +
+      'WHERE id = :id';
+    Query.ParamByName('tipo').AsString := Pessoa.Tipo;
+    Query.ParamByName('nome_completo').AsString := Pessoa.NomeCompleto;
+    Query.ParamByName('data_nascimento').AsDateTime := Pessoa.DataNascimento;
+    Query.ParamByName('cpf').AsString := Pessoa.CPF;
+    Query.ParamByName('rg').AsString := Pessoa.RG;
+    Query.ParamByName('email').AsString := Pessoa.Email;
+    Query.ParamByName('telefone').AsString := Pessoa.Telefone;
+    Query.ParamByName('cep').AsString := Pessoa.CEP;
+    Query.ParamByName('logradouro').AsString := Pessoa.Logradouro;
+    Query.ParamByName('bairro').AsString := Pessoa.Bairro;
+    Query.ParamByName('cidade').AsString := Pessoa.Cidade;
+    Query.ParamByName('estado').AsString := Pessoa.Estado;
+    Query.ParamByName('id').AsInteger := Pessoa.ID;
+    Query.ExecSQL;
+    Result := True;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TModelPessoas.DeletarPessoa(const ID: Integer): Boolean;
+var
+  Query: TFDQuery;
+begin
+  Result := False;
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := Conexao;
+    Query.SQL.Text := 'DELETE FROM pessoas WHERE id = :id';
+    Query.ParamByName('id').AsInteger := ID;
+    Query.ExecSQL;
+    Result := True;
+  finally
+    Query.Free;
+  end;
+end;
+
+function TModelPessoas.BuscarPessoas(const Filtro: string): TFDQuery;
+var
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := Conexao;
+    if Filtro.Trim <> '' then
+    begin
+      Query.SQL.Text := 'SELECT * FROM pessoas WHERE nome_completo LIKE :filtro ORDER BY nome_completo';
+      Query.ParamByName('filtro').AsString := '%' + Filtro + '%';
+    end
+    else
+    begin
+      Query.SQL.Text := 'SELECT * FROM pessoas ORDER BY nome_completo';
+    end;
+    Query.Open;
+    Result := Query;
+  except
+    Query.Free;
+    raise;
+  end;
+end;
+
+function TModelPessoas.ValidarCPFUnico(const CPF: string): Boolean;
+var
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.Create(nil);
+  try
+    Query.Connection := Conexao;
+    Query.SQL.Text := 'SELECT COUNT(*) AS Total FROM pessoas WHERE cpf = :cpf';
+    Query.ParamByName('cpf').AsString := CPF;
+    Query.Open;
+    Result := Query.FieldByName('Total').AsInteger = 0;
+  finally
+    Query.Free;
+  end;
+end;
+
+end.
+

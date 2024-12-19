@@ -19,8 +19,8 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1623
-    ExplicitHeight = 916
+    ExplicitWidth = 1144
+    ExplicitHeight = 498
     object TabSheet1: TTabSheet
       Caption = 'CADASTRO'
       object Panel1: TPanel
@@ -37,7 +37,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 1156
+        ExplicitWidth = 1136
       end
       object Panel2: TPanel
         Left = 0
@@ -46,8 +46,8 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Height = 413
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 1156
-        ExplicitHeight = 390
+        ExplicitWidth = 1136
+        ExplicitHeight = 395
         object lbTipoPessoa: TLabel
           Left = 32
           Top = 11

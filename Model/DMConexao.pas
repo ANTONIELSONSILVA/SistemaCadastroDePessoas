@@ -3,19 +3,18 @@ unit DMConexao;
 interface
 
 uses
-  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
-  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
-  Data.DB, FireDAC.Comp.Client;
+  System.SysUtils, System.Classes, FireDAC.Comp.Client, FireDAC.Stan.Def,
+  FireDAC.Stan.Async, FireDAC.Phys.SQLite, FireDAC.Stan.Param,
+  FireDAC.Phys.SQLiteDef, FireDAC.UI.Intf, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.Phys.Intf, FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Stan.ExprFuncs,
+  FireDAC.Phys.SQLiteWrapper.Stat;
 
 type
-  TDataModuleConexao = class(TDataModule) // Altere para TDataModuleConexao
-  private
-    Conexao: TFDConnection;
-    procedure ConfigurarConexaoSQLite;
+  TDataModuleConexao = class(TDataModule)
+    FDConnection: TFDConnection;
   public
-    procedure ConectarBanco;
-    function ObterConexao: TFDConnection;
+    class function ObterConexao: TFDConnection;
   end;
 
 var
@@ -27,35 +26,15 @@ implementation
 
 {$R *.dfm}
 
-function TDataModuleConexao.ObterConexao: TFDConnection;
+class function TDataModuleConexao.ObterConexao: TFDConnection;
 begin
-  Result := Conexao;
-end;
+  if not Assigned(DataModuleConexao) then
+    DataModuleConexao := TDataModuleConexao.Create(nil);
 
-procedure TDataModuleConexao.ConectarBanco;
-begin
-  try
-    ConfigurarConexaoSQLite;
-    Conexao.Open;
-  except
-    on E: Exception do
-      raise Exception.Create('Erro ao conectar ao banco SQLite: ' + E.Message);
-  end;
-end;
+  if not DataModuleConexao.FDConnection.Connected then
+    DataModuleConexao.FDConnection.Connected := True;
 
-procedure TDataModuleConexao.ConfigurarConexaoSQLite;
-var
-  CaminhoBanco: string;
-begin
-  CaminhoBanco := ExtractFilePath(ParamStr(0)) + 'bancoDados.db';
-
-  Conexao.Close;
-  Conexao.Params.Clear;
-  Conexao.DriverName := 'SQLite';
-  Conexao.Params.Add('Database=' + CaminhoBanco);
-  Conexao.Params.Add('OpenMode=ReadWrite');
-  Conexao.Params.Add('LockingMode=Normal');
-  Conexao.Params.Add('Synchronous=Normal');
+  Result := DataModuleConexao.FDConnection;
 end;
 
 end.
