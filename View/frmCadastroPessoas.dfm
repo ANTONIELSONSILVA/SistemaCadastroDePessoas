@@ -2,7 +2,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
   Left = 0
   Top = 0
   Caption = 'Cadastro De Pessoas'
-  ClientHeight = 516
+  ClientHeight = 632
   ClientWidth = 1154
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,8 +15,8 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
     Left = 0
     Top = 0
     Width = 1154
-    Height = 516
-    ActivePage = TabSheet1
+    Height = 632
+    ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
     ExplicitWidth = 1144
@@ -37,17 +37,15 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 1136
       end
       object Panel2: TPanel
         Left = 0
         Top = 73
         Width = 1146
-        Height = 413
+        Height = 529
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 1136
-        ExplicitHeight = 395
+        ExplicitHeight = 413
         object lbTipoPessoa: TLabel
           Left = 32
           Top = 11
@@ -258,6 +256,43 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
     object TabSheet2: TTabSheet
       Caption = 'PESQUISA E ALTERA'#199#194'O'
       ImageIndex = 1
+      object Panel3: TPanel
+        Left = 0
+        Top = 0
+        Width = 1146
+        Height = 73
+        Align = alTop
+        Caption = 'Listagem e Edi'#231#227'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -50
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+      end
+      object Panel4: TPanel
+        Left = 0
+        Top = 73
+        Width = 1146
+        Height = 529
+        Align = alClient
+        TabOrder = 1
+        ExplicitLeft = 3
+        ExplicitTop = 79
+        object grdDados: TDBGrid
+          Left = 0
+          Top = 0
+          Width = 1145
+          Height = 353
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -12
+          TitleFont.Name = 'Segoe UI'
+          TitleFont.Style = []
+        end
+      end
     end
   end
 end

@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Buttons, controlePessoas, modelPessoas,
-  Vcl.Mask,FireDAC.Comp.Client, Data.DB, Vcl.Grids, Vcl.DBGrids;
+  Vcl.Mask,FireDAC.Comp.Client;
 
 type
   TfrmCadastroDePessoas = class(TForm)
@@ -29,8 +29,6 @@ type
     btnCancelar: TBitBtn;
     lbTipoPessoa: TLabel;
     Panel3: TPanel;
-    Panel4: TPanel;
-    grdDados: TDBGrid;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure ledCEPExit(Sender: TObject);
