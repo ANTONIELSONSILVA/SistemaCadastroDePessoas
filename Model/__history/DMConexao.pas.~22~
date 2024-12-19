@@ -1,0 +1,62 @@
+unit DMConexao;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Comp.Client;
+
+type
+  TDataModuleConexao = class(TDataModule)
+  private
+    FDConexao: TFDConnection;
+    procedure ConfigurarConexaoSQLite;
+  public
+    procedure OpenConnection;
+    function GetConnection: TFDConnection;
+  end;
+
+var
+  DataModuleConexao: TDataModuleConexao;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+function TDataModuleConexao.GetConnection: TFDConnection;
+begin
+  Result := FDConexao;
+end;
+
+procedure TDataModuleConexao.OpenConnection;
+begin
+  try
+    ConfigurarConexaoSQLite;
+    FDConexao.Open;
+  except
+    on E: Exception do
+      raise Exception.Create('Erro ao conectar ao banco SQLite: ' + E.Message);
+  end;
+end;
+
+procedure TDataModuleConexao.ConfigurarConexaoSQLite;
+var
+  ArquivoBanco: string;
+begin
+  ArquivoBanco := ExtractFilePath(ParamStr(0)) + 'dataBase.db';
+
+  FDConexao.Close;
+  FDConexao.Params.Clear;
+  FDConexao.DriverName := 'SQLite';
+  FDConexao.Params.Add('Database=' + ArquivoBanco);
+  FDConexao.Params.Add('OpenMode=ReadWrite'); // ReadWrite ou CreateUTF8 se necessário
+  FDConexao.Params.Add('LockingMode=Normal');
+  FDConexao.Params.Add('Synchronous=Normal');
+end;
+
+end.
+

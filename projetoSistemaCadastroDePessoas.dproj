@@ -103,7 +103,7 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Model\DMConexao.pas">
-            <Form>DataModule1</Form>
+            <Form>DataModuleConexao</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
