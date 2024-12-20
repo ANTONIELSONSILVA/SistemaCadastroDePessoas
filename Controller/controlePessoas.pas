@@ -11,6 +11,7 @@ type
     Model: TModelPessoas;
     function ValidarEmail(const Email: string): Boolean;
     function ConsultarViaCEP(const CEP: string): string;
+
   public
     constructor Create;
     destructor Destroy; override;
@@ -20,6 +21,7 @@ type
     function ListarPessoas(const Filtro: string = ''): TFDQuery;
     function ListarTodos: TFDQuery;
     function BuscarEnderecoPorCEP(const CEP: string): TPessoa;
+    function RetornaDadosPessoa(const Pessoa: TPessoa): string;
   end;
 
 implementation
@@ -92,6 +94,8 @@ begin
   Result := Model.DeletarPessoa(ID);
 end;
 
+
+
 function TControlePessoas.ListarPessoas(const Filtro: string): TFDQuery;
 begin
   Result := Model.BuscarPessoas(Filtro);
@@ -126,6 +130,26 @@ function TControlePessoas.ListarTodos: TFDQuery;
 begin
   Result := Model.BuscarTodos;
 end;
+
+
+
+function TControlePessoas.RetornaDadosPessoa(const Pessoa: TPessoa): string;
+begin
+  Result := 'ID: ' + IntToStr(Pessoa.ID) + sLineBreak +
+            'Tipo: ' + Pessoa.Tipo + sLineBreak +
+            'Nome Completo: ' + Pessoa.NomeCompleto + sLineBreak +
+            'Data de Nascimento: ' + DateToStr(Pessoa.DataNascimento) + sLineBreak +
+            'CPF: ' + Pessoa.CPF + sLineBreak +
+            'RG: ' + Pessoa.RG + sLineBreak +
+            'Email: ' + Pessoa.Email + sLineBreak +
+            'Telefone: ' + Pessoa.Telefone + sLineBreak +
+            'CEP: ' + Pessoa.CEP + sLineBreak +
+            'Logradouro: ' + Pessoa.Logradouro + sLineBreak +
+            'Bairro: ' + Pessoa.Bairro + sLineBreak +
+            'Cidade: ' + Pessoa.Cidade + sLineBreak +
+            'Estado: ' + Pessoa.Estado;
+end;
+
 
 
 end.

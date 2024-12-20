@@ -6,11 +6,11 @@ uses
   System.SysUtils, System.Classes, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Buttons, controlePessoas, modelPessoas,
   Vcl.Mask,FireDAC.Comp.Client, Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.DBCtrls,
-  ShellAPI, Windows;
+  ShellAPI, Windows, System.StrUtils, Vcl.Graphics;
 
 type
   TfrmCadastroDePessoas = class(TForm)
-    PageControl1: TPageControl;
+    pcPrincipal: TPageControl;
     TabSheet1: TTabSheet;
     Panel1: TPanel;
     Panel2: TPanel;
@@ -36,17 +36,26 @@ type
     ledLogradouro: TLabeledEdit;
     DBNavigator1: TDBNavigator;
     btnApagar: TBitBtn;
+    btnEditar: TBitBtn;
+    ledPesquisa: TLabeledEdit;
     procedure btnSalvarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure ledCEPExit(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnApagarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure grdDadosDblClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure ledPesquisaChange(Sender: TObject);
+    procedure grdDadosDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
   private
     ControlePessoas: TControlePessoas;
     procedure LimparCampos;
     procedure CarregarDados;
     procedure ajustaTabela;
+    function retornaPessoa: TPessoa;
+
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -128,7 +137,125 @@ begin
     ProcessInfo
   ) then
     ShowMessage('Erro ao iniciar o processo: ' + SysErrorMessage(GetLastError));
+
+    pcPrincipal.ActivePage := TabSheet1;
+
 end;
+
+
+procedure TfrmCadastroDePessoas.grdDadosDblClick(Sender: TObject);
+var
+  PessoaDados: TPessoa;
+  Msg: string;
+begin
+
+  PessoaDados := retornaPessoa;
+
+  // Chama o método do controller para formatar os dados
+  Msg := ControlePessoas.RetornaDadosPessoa(PessoaDados);
+
+  // Exibe a mensagem formatada
+  ShowMessage(Msg);
+
+end;
+
+
+
+
+procedure TfrmCadastroDePessoas.grdDadosDrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if ContainsText(dtsListagem.DataSet.FieldByName('NomeCompleto').AsString, ledPesquisa.Text) then
+  begin
+    // Altera o fundo da linha para destacar
+    grdDados.Canvas.Brush.Color := clYellow; // Cor de fundo da linha
+    grdDados.Canvas.Font.Color := clBlack;  // Cor do texto
+  end;
+
+  // Desenha o conteúdo da célula
+  grdDados.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TfrmCadastroDePessoas.ledPesquisaChange(Sender: TObject);
+var
+  TextoPesquisa: string;
+  Encontrado: Boolean;
+begin
+  // Obter o texto do campo de pesquisa
+  TextoPesquisa := ledPesquisa.Text;
+
+  // Verificar se o dataset está ativo e se há registros
+  if Assigned(dtsListagem.DataSet) and not dtsListagem.DataSet.IsEmpty then
+  begin
+    // Desmarcar qualquer seleção anterior na grade
+    grdDados.SelectedRows.Clear;
+
+    try
+      // Procurar registros correspondentes ao texto de pesquisa
+      Encontrado := False;
+      dtsListagem.DataSet.DisableControls; // Desabilitar controles para melhorar performance
+      try
+        dtsListagem.DataSet.First; // Ir para o primeiro registro
+        while not dtsListagem.DataSet.Eof do
+        begin
+          if ContainsText(dtsListagem.DataSet.FieldByName('NomeCompleto').AsString, TextoPesquisa) then
+          begin
+            // Adiciona o registro à seleção do grid
+            grdDados.SelectedRows.CurrentRowSelected := True;
+            Encontrado := True;
+          end;
+          dtsListagem.DataSet.Next;
+        end;
+      finally
+        dtsListagem.DataSet.EnableControls; // Reabilitar controles
+      end;
+
+      // Se encontrado, mover o cursor para o primeiro registro correspondente
+      if Encontrado then
+      begin
+        dtsListagem.DataSet.First;
+        while not dtsListagem.DataSet.Eof do
+        begin
+          if ContainsText(dtsListagem.DataSet.FieldByName('NomeCompleto').AsString, TextoPesquisa) then
+          begin
+            dtsListagem.DataSet.RecNo := dtsListagem.DataSet.RecNo; // Move o cursor
+            Break;
+          end;
+          dtsListagem.DataSet.Next;
+        end;
+      end;
+    except
+      on E: Exception do
+        ShowMessage('Erro ao pesquisar: ' + E.Message);
+    end;
+  end;
+end;
+
+function  TfrmCadastroDePessoas.retornaPessoa(): TPessoa;
+var
+  Pessoa: TPessoa;
+begin
+  // Preenche os dados da pessoa com base no dataset selecionado
+  Pessoa.ID := dtsListagem.DataSet.FieldByName('ID').AsInteger;
+  Pessoa.Tipo := dtsListagem.DataSet.FieldByName('Tipo').AsString;
+  Pessoa.NomeCompleto := dtsListagem.DataSet.FieldByName('NomeCompleto').AsString;
+  Pessoa.DataNascimento := dtsListagem.DataSet.FieldByName('DataNascimento').AsDateTime;
+  Pessoa.CPF := dtsListagem.DataSet.FieldByName('CPF').AsString;
+  Pessoa.RG := dtsListagem.DataSet.FieldByName('RG').AsString;
+  Pessoa.Email := dtsListagem.DataSet.FieldByName('Email').AsString;
+  Pessoa.Telefone := dtsListagem.DataSet.FieldByName('Telefone').AsString;
+  Pessoa.CEP := dtsListagem.DataSet.FieldByName('CEP').AsString;
+  Pessoa.Logradouro := dtsListagem.DataSet.FieldByName('Logradouro').AsString;
+  Pessoa.Bairro := dtsListagem.DataSet.FieldByName('Bairro').AsString;
+  Pessoa.Cidade := dtsListagem.DataSet.FieldByName('Cidade').AsString;
+  Pessoa.Estado := dtsListagem.DataSet.FieldByName('Estado').AsString;
+
+  Result := Pessoa;
+
+
+end;
+
+
 
 
 procedure TfrmCadastroDePessoas.btnSalvarClick(Sender: TObject);
@@ -161,6 +288,7 @@ begin
     Pessoa.Email := ledEmail.Text;
     Pessoa.Telefone := ledTelefone.Text;
     Pessoa.CEP := ledCEP.Text;
+    Pessoa.Logradouro := ledLogradouro.Text;
     Pessoa.Bairro := ledBairro.Text;
     Pessoa.Cidade := ledCidade.Text;
     Pessoa.Estado := ledEstado.Text;
@@ -219,6 +347,30 @@ end;
 procedure TfrmCadastroDePessoas.btnCancelarClick(Sender: TObject);
 begin
   LimparCampos;
+end;
+
+procedure TfrmCadastroDePessoas.btnEditarClick(Sender: TObject);
+var
+  PessoaDados: TPessoa;
+begin
+  // Onclick Editar
+  PessoaDados := retornaPessoa;
+
+  cbTipoPessoa.Text := PessoaDados.Tipo;
+  ledNome.Text := PessoaDados.NomeCompleto;
+  ledNascimento.Text := FormatDateTime('dd/mm/yyyy', PessoaDados.DataNascimento);
+  ledCPF.Text := PessoaDados.CPF;
+  ledRG.Text := PessoaDados.RG;
+  ledEmail.Text := PessoaDados.Email;
+  ledTelefone.Text := PessoaDados.Telefone;
+  ledCEP.Text := PessoaDados.CEP;
+  ledLogradouro.Text := PessoaDados.Logradouro;
+  ledBairro.Text := PessoaDados.Bairro;
+  ledCidade.Text := PessoaDados.Cidade;
+  ledEstado.Text := PessoaDados.Estado;
+
+  pcPrincipal.ActivePage := TabSheet1;
+
 end;
 
 procedure TfrmCadastroDePessoas.ledCEPExit(Sender: TObject);
