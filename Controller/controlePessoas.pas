@@ -101,13 +101,17 @@ function TControlePessoas.BuscarEnderecoPorCEP(const CEP: string): TPessoa;
 var
   JSONResponse: TJSONObject;
   JSONData: string;
+  HasError: TJSONValue;
 begin
   JSONData := ConsultarViaCEP(CEP);
   JSONResponse := TJSONObject.ParseJSONValue(JSONData) as TJSONObject;
   try
-    if JSONResponse.GetValue<string>('erro') = 'true' then
+    // Verifica se a chave "erro" existe
+    HasError := JSONResponse.FindValue('erro');
+    if (HasError <> nil) and (HasError.Value = 'true') then
       raise Exception.Create('CEP inválido.');
 
+    // Preenche os campos de Result com os valores do JSON
     Result.Logradouro := JSONResponse.GetValue<string>('logradouro');
     Result.Bairro := JSONResponse.GetValue<string>('bairro');
     Result.Cidade := JSONResponse.GetValue<string>('localidade');
@@ -116,6 +120,7 @@ begin
     JSONResponse.Free;
   end;
 end;
+
 
 function TControlePessoas.ListarTodos: TFDQuery;
 begin

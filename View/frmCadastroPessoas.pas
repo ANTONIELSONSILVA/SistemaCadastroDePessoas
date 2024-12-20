@@ -232,6 +232,7 @@ begin
   try
     PessoaEndereco := ControlePessoas.BuscarEnderecoPorCEP(ledCEP.Text);
     // Preencher os campos de endereço
+    ledLogradouro.Text := PessoaEndereco.logradouro;
     ledBairro.Text := PessoaEndereco.Bairro;
     ledCidade.Text := PessoaEndereco.Cidade;
     ledEstado.Text := PessoaEndereco.Estado;
