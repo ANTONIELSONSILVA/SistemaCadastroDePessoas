@@ -1,0 +1,67 @@
+# Para criar o banco execute o seguinte comando "sqlite3 dataBase" no terminal
+# dentro da pasta do sqlite-tool
+
+
+# Para criar a tabela
+
+CREATE TABLE pessoa (
+  ID INTEGER PRIMARY KEY,
+  Tipo VARCHAR(40),
+  NomeCompleto VARCHAR(255),
+  DataNascimento DATE,
+  CPF VARCHAR(14),
+  RG VARCHAR(20),
+  Email VARCHAR(255),
+  Telefone VARCHAR(20),
+  CEP VARCHAR(10),
+  Logradouro VARCHAR(255),
+  Bairro VARCHAR(100),
+  Cidade VARCHAR(100),
+  Estado VARCHAR(50)
+);
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (1, 'Física', 'João Silva', '1990-05-15', '123.456.789-00', 'MG-12.345.678', 'joao.silva@example.com', '(31) 91234-5678', '30110-123', 'Rua A, 123', 'Centro', 'Belo Horizonte', 'Minas Gerais');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (2, 'Jurídica', 'Empresa ABC Ltda', NULL, NULL, NULL, 'contato@abc.com.br', '(11) 92345-6789', '01000-000', 'Avenida Paulista, 1000', 'Bela Vista', 'São Paulo', 'São Paulo');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (3, 'Física', 'Maria Oliveira', '1985-10-10', '987.654.321-00', 'SP-98.765.432', 'maria.oliveira@example.com', '(21) 93210-7654', '20010-123', 'Rua B, 456', 'Lapa', 'Rio de Janeiro', 'Rio de Janeiro');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (4, 'Física', 'Carlos Souza', '2000-02-20', '321.654.987-00', 'RJ-56.789.123', 'carlos.souza@example.com', '(62) 94567-1234', '74000-123', 'Rua C, 789', 'Setor Central', 'Goiânia', 'Goiás');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (5, 'Física', 'Ana Lima', '1992-07-25', '111.222.333-44', 'BA-12.334.567', 'ana.lima@example.com', '(71) 99876-5432', '40010-001', 'Avenida D, 123', 'Pelourinho', 'Salvador', 'Bahia');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (6, 'Jurídica', 'Tech Solutions Ltda', NULL, NULL, NULL, 'contato@techsolutions.com', '(85) 98765-4321', '60000-000', 'Rua E, 1000', 'Aldeota', 'Fortaleza', 'Ceará');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (7, 'Física', 'Pedro Santos', '1988-03-12', '123.789.456-00', 'PE-23.456.789', 'pedro.santos@example.com', '(81) 97654-3210', '50000-123', 'Rua F, 456', 'Boa Viagem', 'Recife', 'Pernambuco');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (8, 'Física', 'Carolina Dias', '1995-11-18', '456.789.123-00', 'RS-12.345.678', 'carolina.dias@example.com', '(51) 92345-6789', '90000-000', 'Rua G, 789', 'Moinhos de Vento', 'Porto Alegre', 'Rio Grande do Sul');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (9, 'Física', 'Roberto Almeida', '1993-04-22', '789.456.123-00', 'DF-34.567.890', 'roberto.almeida@example.com', '(61) 98765-4321', '70000-123', 'Rua H, 123', 'Asa Sul', 'Brasília', 'Distrito Federal');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (10, 'Física', 'Luciana Ferreira', '1987-09-15', '321.987.654-00', 'SC-56.789.012', 'luciana.ferreira@example.com', '(48) 92345-6789', '88000-000', 'Rua I, 456', 'Centro', 'Florianópolis', 'Santa Catarina');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (11, 'Jurídica', 'Educação Avançada Ltda', NULL, NULL, NULL, 'contato@educacaoavancada.com.br', '(31) 98765-4321', '30120-123', 'Rua J, 789', 'Savassi', 'Belo Horizonte', 'Minas Gerais');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (12, 'Física', 'Marcelo Costa', '1991-12-31', '654.321.987-00', 'ES-78.901.234', 'marcelo.costa@example.com', '(27) 93210-7654', '29000-123', 'Rua K, 123', 'Praia do Canto', 'Vitória', 'Espírito Santo');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (13, 'Física', 'Juliana Martins', '1999-08-22', '789.123.456-00', 'PR-67.890.123', 'juliana.martins@example.com', '(41) 94567-1234', '80000-000', 'Rua L, 456', 'Batel', 'Curitiba', 'Paraná');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (14, 'Física', 'Fernando Rocha', '1983-01-10', '123.654.789-00', 'AL-45.678.901', 'fernando.rocha@example.com', '(82) 99876-5432', '57000-123', 'Rua M, 789', 'Pajuçara', 'Maceió', 'Alagoas');
+
+INSERT INTO pessoa (ID, Tipo, NomeCompleto, DataNascimento, CPF, RG, Email, Telefone, CEP, Logradouro, Bairro, Cidade, Estado)
+VALUES (15, 'Física', 'Vanessa Lima', '1997-06-07', '987.123.654-00', 'TO-34.567.890', 'vanessa.lima@example.com', '(63) 92345-6789', '77000-000', 'Rua N, 123', 'Plano Diretor Sul', 'Palmas', 'Tocantins');
+

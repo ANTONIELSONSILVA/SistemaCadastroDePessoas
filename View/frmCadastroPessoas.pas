@@ -171,7 +171,6 @@ begin
     grdDados.Canvas.Brush.Color := clYellow; // Cor de fundo da linha
     grdDados.Canvas.Font.Color := clBlack;  // Cor do texto
   end;
-
   // Desenha o conteúdo da célula
   grdDados.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
@@ -183,13 +182,11 @@ var
 begin
   // Obter o texto do campo de pesquisa
   TextoPesquisa := ledPesquisa.Text;
-
   // Verificar se o dataset está ativo e se há registros
   if Assigned(dtsListagem.DataSet) and not dtsListagem.DataSet.IsEmpty then
   begin
     // Desmarcar qualquer seleção anterior na grade
     grdDados.SelectedRows.Clear;
-
     try
       // Procurar registros correspondentes ao texto de pesquisa
       Encontrado := False;
@@ -209,7 +206,6 @@ begin
       finally
         dtsListagem.DataSet.EnableControls; // Reabilitar controles
       end;
-
       // Se encontrado, mover o cursor para o primeiro registro correspondente
       if Encontrado then
       begin

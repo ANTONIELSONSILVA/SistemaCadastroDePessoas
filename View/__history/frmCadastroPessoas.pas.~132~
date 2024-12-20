@@ -1,0 +1,322 @@
+unit frmCadastroPessoas;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Vcl.Forms, Vcl.Controls, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Buttons, controlePessoas, modelPessoas,
+  Vcl.Mask, FireDAC.Comp.Client, Data.DB, Vcl.Grids, Vcl.DBGrids, Vcl.DBCtrls,
+  ShellAPI, Windows, System.StrUtils, Vcl.Graphics;
+
+type
+  TfrmCadastroDePessoas = class(TForm)
+    pcPrincipal: TPageControl;
+    TabSheet1: TTabSheet;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    ledNome: TLabeledEdit;
+    ledNascimento: TLabeledEdit;
+    ledCPF: TLabeledEdit;
+    ledRG: TLabeledEdit;
+    ledEmail: TLabeledEdit;
+    ledTelefone: TLabeledEdit;
+    ledCEP: TLabeledEdit;
+    ledBairro: TLabeledEdit;
+    ledCidade: TLabeledEdit;
+    ledEstado: TLabeledEdit;
+    cbTipoPessoa: TComboBox;
+    btnSalvar: TBitBtn;
+    TabSheet2: TTabSheet;
+    btnCancelar: TBitBtn;
+    lbTipoPessoa: TLabel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    grdDados: TDBGrid;
+    ledLogradouro: TLabeledEdit;
+    DBNavigator1: TDBNavigator;
+    btnApagar: TBitBtn;
+    btnEditar: TBitBtn;
+    ledPesquisa: TLabeledEdit;
+    procedure btnSalvarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure ledCEPExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure grdDadosDblClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure ledPesquisaChange(Sender: TObject);
+    procedure grdDadosDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+  private
+    ControlePessoas: TControlePessoas;
+    procedure LimparCampos;
+    procedure AjustaTabela;
+  public
+    function RetornaDadosPessoa(const Pessoa: TPessoa): string;
+    function RetornaPessoa: TPessoa;
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  end;
+
+var
+  frmCadastroDePessoas: TfrmCadastroDePessoas;
+  ProcessInfo: TProcessInformation;
+  StartupInfo: TStartupInfo;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  Vcl.Dialogs;
+
+constructor TfrmCadastroDePessoas.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  ControlePessoas := TControlePessoas.Create;
+
+  // Inicializar o ComboBox de Tipo de Pessoa
+  cbTipoPessoa.Items.Add('Cliente');
+  cbTipoPessoa.Items.Add('Fornecedor');
+  cbTipoPessoa.Items.Add('Transportador');
+  cbTipoPessoa.Items.Add('Outro');
+end;
+
+destructor TfrmCadastroDePessoas.Destroy;
+begin
+  ControlePessoas.Free;
+  inherited Destroy;
+end;
+
+procedure TfrmCadastroDePessoas.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  if ProcessInfo.hProcess <> 0 then
+  begin
+    // Encerra o processo
+    TerminateProcess(ProcessInfo.hProcess, 0);
+
+    // Fecha os handles do processo
+    CloseHandle(ProcessInfo.hProcess);
+    CloseHandle(ProcessInfo.hThread);
+  end;
+end;
+
+procedure TfrmCadastroDePessoas.FormShow(Sender: TObject);
+begin
+  try
+    if not ControlePessoas.CarregarDados then
+      ShowMessage('Erro ao carregar dados.');
+    AjustaTabela;
+    pcPrincipal.ActivePage := TabSheet1;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao exibir o formulário: ' + E.Message);
+  end;
+end;
+
+procedure TfrmCadastroDePessoas.grdDadosDblClick(Sender: TObject);
+var
+  PessoaDados: TPessoa;
+  Msg: string;
+begin
+  PessoaDados := RetornaPessoa;
+  Msg := RetornaDadosPessoa(PessoaDados);
+  ShowMessage(Msg);
+end;
+
+function TfrmCadastroDePessoas.RetornaDadosPessoa(const Pessoa: TPessoa): string;
+begin
+  Result := 'ID: ' + IntToStr(Pessoa.ID) + sLineBreak +
+            'Tipo: ' + Pessoa.Tipo + sLineBreak +
+            'Nome Completo: ' + Pessoa.NomeCompleto + sLineBreak +
+            'Data de Nascimento: ' + DateToStr(Pessoa.DataNascimento) + sLineBreak +
+            'CPF: ' + Pessoa.CPF + sLineBreak +
+            'RG: ' + Pessoa.RG + sLineBreak +
+            'Email: ' + Pessoa.Email + sLineBreak +
+            'Telefone: ' + Pessoa.Telefone + sLineBreak +
+            'CEP: ' + Pessoa.CEP + sLineBreak +
+            'Logradouro: ' + Pessoa.Logradouro + sLineBreak +
+            'Bairro: ' + Pessoa.Bairro + sLineBreak +
+            'Cidade: ' + Pessoa.Cidade + sLineBreak +
+            'Estado: ' + Pessoa.Estado;
+end;
+
+function TfrmCadastroDePessoas.RetornaPessoa: TPessoa;
+var
+  Pessoa: TPessoa;
+begin
+  // Preenche os dados da pessoa com base no dataset selecionado
+  Pessoa.ID := ControlePessoas.DataSource.DataSet.FieldByName('ID').AsInteger;
+  Pessoa.Tipo := ControlePessoas.DataSource.DataSet.FieldByName('Tipo').AsString;
+  Pessoa.NomeCompleto := ControlePessoas.DataSource.DataSet.FieldByName('NomeCompleto').AsString;
+  Pessoa.DataNascimento := ControlePessoas.DataSource.DataSet.FieldByName('DataNascimento').AsDateTime;
+  Pessoa.CPF := ControlePessoas.DataSource.DataSet.FieldByName('CPF').AsString;
+  Pessoa.RG := ControlePessoas.DataSource.DataSet.FieldByName('RG').AsString;
+  Pessoa.Email := ControlePessoas.DataSource.DataSet.FieldByName('Email').AsString;
+  Pessoa.Telefone := ControlePessoas.DataSource.DataSet.FieldByName('Telefone').AsString;
+  Pessoa.CEP := ControlePessoas.DataSource.DataSet.FieldByName('CEP').AsString;
+  Pessoa.Logradouro := ControlePessoas.DataSource.DataSet.FieldByName('Logradouro').AsString;
+  Pessoa.Bairro := ControlePessoas.DataSource.DataSet.FieldByName('Bairro').AsString;
+  Pessoa.Cidade := ControlePessoas.DataSource.DataSet.FieldByName('Cidade').AsString;
+  Pessoa.Estado := ControlePessoas.DataSource.DataSet.FieldByName('Estado').AsString;
+
+  Result := Pessoa;
+end;
+
+procedure TfrmCadastroDePessoas.grdDadosDrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  if ControlePessoas.ContainsTextInDataset(ledPesquisa.Text) then
+  begin
+    grdDados.Canvas.Brush.Color := clYellow;
+    grdDados.Canvas.Font.Color := clBlack;
+  end;
+  grdDados.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TfrmCadastroDePessoas.ledPesquisaChange(Sender: TObject);
+begin
+  ControlePessoas.HighlightMatchingRecords(ledPesquisa.Text, grdDados);
+end;
+
+procedure TfrmCadastroDePessoas.btnSalvarClick(Sender: TObject);
+var
+  Pessoa: TPessoa;
+begin
+  try
+    if ledNome.Text = '' then
+      raise Exception.Create('O campo Nome é obrigatório.');
+
+    if ledCPF.Text = '' then
+      raise Exception.Create('O campo CPF é obrigatório.');
+
+    if cbTipoPessoa.ItemIndex = -1 then
+      raise Exception.Create('Selecione o Tipo de Pessoa.');
+
+    Pessoa.Tipo := cbTipoPessoa.Text;
+    Pessoa.NomeCompleto := ledNome.Text;
+    Pessoa.DataNascimento := StrToDateDef(ledNascimento.Text, 0);
+    Pessoa.CPF := ledCPF.Text;
+    Pessoa.RG := ledRG.Text;
+    Pessoa.Email := ledEmail.Text;
+    Pessoa.Telefone := ledTelefone.Text;
+    Pessoa.CEP := ledCEP.Text;
+    Pessoa.Logradouro := ledLogradouro.Text;
+    Pessoa.Bairro := ledBairro.Text;
+    Pessoa.Cidade := ledCidade.Text;
+    Pessoa.Estado := ledEstado.Text;
+
+    if ControlePessoas.CadastrarPessoa(Pessoa) then
+    begin
+      ShowMessage('Pessoa cadastrada com sucesso!');
+      LimparCampos;
+      ControlePessoas.CarregarDados;
+      AjustaTabela;
+    end;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao cadastrar pessoa: ' + E.Message);
+  end;
+end;
+
+procedure TfrmCadastroDePessoas.btnApagarClick(Sender: TObject);
+var
+  Codigo: Integer;
+begin
+  try
+    Codigo := RetornaPessoa.ID;
+    if MessageDlg('Deseja realmente apagar o registro?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    begin
+      if ControlePessoas.ExcluirPessoa(Codigo) then
+      begin
+        ShowMessage('Registro excluído com sucesso.');
+        ControlePessoas.CarregarDados;
+        AjustaTabela;
+      end;
+    end;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao apagar registro: ' + E.Message);
+  end;
+end;
+
+procedure TfrmCadastroDePessoas.btnCancelarClick(Sender: TObject);
+begin
+  LimparCampos;
+end;
+
+procedure TfrmCadastroDePessoas.btnEditarClick(Sender: TObject);
+var
+  PessoaDados: TPessoa;
+begin
+  PessoaDados := RetornaPessoa;
+
+  cbTipoPessoa.Text := PessoaDados.Tipo;
+  ledNome.Text := PessoaDados.NomeCompleto;
+  ledNascimento.Text := DateToStr(PessoaDados.DataNascimento);
+  ledCPF.Text := PessoaDados.CPF;
+  ledRG.Text := PessoaDados.RG;
+  ledEmail.Text := PessoaDados.Email;
+  ledTelefone.Text := PessoaDados.Telefone;
+  ledCEP.Text := PessoaDados.CEP;
+  ledLogradouro.Text := PessoaDados.Logradouro;
+  ledBairro.Text := PessoaDados.Bairro;
+  ledCidade.Text := PessoaDados.Cidade;
+  ledEstado.Text := PessoaDados.Estado;
+
+  pcPrincipal.ActivePage := TabSheet1;
+end;
+
+procedure TfrmCadastroDePessoas.ledCEPExit(Sender: TObject);
+var
+  PessoaEndereco: TPessoa;
+begin
+  if ledCEP.Text.Trim.IsEmpty then Exit;
+
+  try
+    PessoaEndereco := ControlePessoas.BuscarEnderecoPorCEP(ledCEP.Text);
+    ledLogradouro.Text := PessoaEndereco.Logradouro;
+    ledBairro.Text := PessoaEndereco.Bairro;
+    ledCidade.Text := PessoaEndereco.Cidade;
+    ledEstado.Text := PessoaEndereco.Estado;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao buscar endereço: ' + E.Message);
+  end;
+end;
+
+procedure TfrmCadastroDePessoas.LimparCampos;
+begin
+  cbTipoPessoa.ItemIndex := -1;
+  ledNome.Clear;
+  ledNascimento.Clear;
+  ledCPF.Clear;
+  ledRG.Clear;
+  ledEmail.Clear;
+  ledTelefone.Clear;
+  ledCEP.Clear;
+  ledLogradouro.Clear;
+  ledBairro.Clear;
+  ledCidade.Clear;
+  ledEstado.Clear;
+end;
+
+procedure TfrmCadastroDePessoas.AjustaTabela;
+begin
+  grdDados.Columns[0].Width := 50;
+  grdDados.Columns[1].Width := 100;
+  grdDados.Columns[2].Width := 200;
+  grdDados.Columns[3].Width := 80;
+  grdDados.Columns[4].Width := 120;
+  grdDados.Columns[5].Width := 100;
+  grdDados.Columns[6].Width := 200;
+  grdDados.Columns[7].Width := 100;
+  grdDados.Columns[8].Width := 80;
+  grdDados.Columns[9].Width := 150;
+  grdDados.Columns[10].Width := 100;
+  grdDados.Columns[11].Width := 100;
+  grdDados.Columns[12].Width := 50;
+end;
+
+end.

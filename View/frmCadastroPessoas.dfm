@@ -292,7 +292,8 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Height = 493
         Align = alClient
         TabOrder = 1
-        ExplicitTop = 79
+        ExplicitWidth = 1116
+        ExplicitHeight = 475
         object grdDados: TDBGrid
           Left = 0
           Top = 0
@@ -394,7 +395,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
           Left = 11
           Top = 374
           Width = 289
-          Height = 31
+          Height = 23
           EditLabel.Width = 104
           EditLabel.Height = 15
           EditLabel.Caption = 'Digite sua pesquisa:'

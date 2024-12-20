@@ -27,15 +27,27 @@ implementation
 {$R *.dfm}
 
 class function TDataModuleConexao.ObterConexao: TFDConnection;
+var
+  PathDB: string;
 begin
   if not Assigned(DataModuleConexao) then
     DataModuleConexao := TDataModuleConexao.Create(nil);
 
   if not DataModuleConexao.FDConnection.Connected then
+  begin
+    // Obtém o caminho do diretório do executável
+    PathDB := ExtractFilePath(ParamStr(0)) + 'dataBase\dataBase.db';
+
+    // Define o caminho para o banco de dados
+    DataModuleConexao.FDConnection.Params.Database := PathDB;
+
+    // Conecta ao banco de dados
     DataModuleConexao.FDConnection.Connected := True;
+  end;
 
   Result := DataModuleConexao.FDConnection;
 end;
+
 
 end.
 

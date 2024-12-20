@@ -5,9 +5,6 @@ object DataModuleConexao: TDataModuleConexao
   object FDConnection: TFDConnection
     Params.Strings = (
       'DriverID=SQLite'
-      
-        'Database=C:\Users\Antonielson\Desktop\SistemaCadastroDePessoas\W' +
-        'in32\Debug\dataBase\dataBase.db'
       'LockingMode=Normal'
       'Synchronous=Normal')
     LoginPrompt = False

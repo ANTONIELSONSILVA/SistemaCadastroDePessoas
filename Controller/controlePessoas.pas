@@ -3,7 +3,8 @@ unit controlePessoas;
 interface
 
 uses
-  System.SysUtils, modelPessoas, FireDAC.Comp.Client, Data.DB, IdHTTP, System.JSON;
+  System.SysUtils, modelPessoas, FireDAC.Comp.Client, Data.DB, IdHTTP, System.JSON, Vcl.Dialogs, Vcl.Forms;
+
 
 type
   TControlePessoas = class
@@ -76,7 +77,10 @@ begin
     raise Exception.Create('E-mail inválido.');
 
   if not Model.ValidarCPFUnico(Pessoa.CPF) then
-    raise Exception.Create('CPF já cadastrado.');
+  begin
+    if MessageDlg('O CPF já está cadastrado. Deseja continuar mesmo assim?', mtConfirmation, [mbYes, mbNo], 0) = 2 then
+      Exit(False);
+  end;
 
   Result := Model.InserirPessoa(Pessoa);
 end;
