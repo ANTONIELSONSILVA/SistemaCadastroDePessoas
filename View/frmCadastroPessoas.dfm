@@ -2,8 +2,8 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
   Left = 0
   Top = 0
   Caption = 'Cadastro De Pessoas'
-  ClientHeight = 614
-  ClientWidth = 1144
+  ClientHeight = 596
+  ClientWidth = 1134
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,20 +16,22 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 1144
-    Height = 614
-    ActivePage = TabSheet2
+    Width = 1134
+    Height = 596
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 1124
+    ExplicitHeight = 578
     object TabSheet1: TTabSheet
       Caption = 'CADASTRO'
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1136
+        Width = 1126
         Height = 73
         Align = alTop
-        Caption = 'Cadastro do Pessoas'
+        Caption = 'Cadastro de Pessoas'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -60
@@ -37,13 +39,13 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 1146
+        ExplicitTop = -6
       end
       object Panel2: TPanel
         Left = 0
         Top = 73
-        Width = 1136
-        Height = 511
+        Width = 1126
+        Height = 493
         Align = alClient
         TabOrder = 1
         object lbTipoPessoa: TLabel
@@ -270,7 +272,7 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
       object Panel3: TPanel
         Left = 0
         Top = 0
-        Width = 1146
+        Width = 1126
         Height = 73
         Align = alTop
         Caption = 'Listagem e Edi'#231#227'o'
@@ -281,16 +283,17 @@ object frmCadastroDePessoas: TfrmCadastroDePessoas
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 1136
+        ExplicitWidth = 1116
       end
       object Panel4: TPanel
         Left = 0
         Top = 73
-        Width = 1146
-        Height = 529
+        Width = 1126
+        Height = 493
         Align = alClient
         TabOrder = 1
-        ExplicitTop = 79
+        ExplicitWidth = 1116
+        ExplicitHeight = 475
         object grdDados: TDBGrid
           Left = 0
           Top = 0
