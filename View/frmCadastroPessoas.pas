@@ -171,7 +171,6 @@ begin
     grdDados.Canvas.Brush.Color := clYellow; // Cor de fundo da linha
     grdDados.Canvas.Font.Color := clBlack;  // Cor do texto
   end;
-
   // Desenha o conteúdo da célula
   grdDados.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
@@ -179,57 +178,28 @@ end;
 procedure TfrmCadastroDePessoas.ledPesquisaChange(Sender: TObject);
 var
   TextoPesquisa: string;
-  Encontrado: Boolean;
 begin
   // Obter o texto do campo de pesquisa
   TextoPesquisa := ledPesquisa.Text;
 
-  // Verificar se o dataset está ativo e se há registros
-  if Assigned(dtsListagem.DataSet) and not dtsListagem.DataSet.IsEmpty then
+  // Verificar se o dataset está ativo
+  if Assigned(dtsListagem.DataSet) then
   begin
-    // Desmarcar qualquer seleção anterior na grade
-    grdDados.SelectedRows.Clear;
-
-    try
-      // Procurar registros correspondentes ao texto de pesquisa
-      Encontrado := False;
-      dtsListagem.DataSet.DisableControls; // Desabilitar controles para melhorar performance
-      try
-        dtsListagem.DataSet.First; // Ir para o primeiro registro
-        while not dtsListagem.DataSet.Eof do
-        begin
-          if ContainsText(dtsListagem.DataSet.FieldByName('NomeCompleto').AsString, TextoPesquisa) then
-          begin
-            // Adiciona o registro à seleção do grid
-            grdDados.SelectedRows.CurrentRowSelected := True;
-            Encontrado := True;
-          end;
-          dtsListagem.DataSet.Next;
-        end;
-      finally
-        dtsListagem.DataSet.EnableControls; // Reabilitar controles
-      end;
-
-      // Se encontrado, mover o cursor para o primeiro registro correspondente
-      if Encontrado then
-      begin
-        dtsListagem.DataSet.First;
-        while not dtsListagem.DataSet.Eof do
-        begin
-          if ContainsText(dtsListagem.DataSet.FieldByName('NomeCompleto').AsString, TextoPesquisa) then
-          begin
-            dtsListagem.DataSet.RecNo := dtsListagem.DataSet.RecNo; // Move o cursor
-            Break;
-          end;
-          dtsListagem.DataSet.Next;
-        end;
-      end;
-    except
-      on E: Exception do
-        ShowMessage('Erro ao pesquisar: ' + E.Message);
+    if TextoPesquisa = '' then
+    begin
+      // Limpar o filtro se a pesquisa estiver vazia
+      dtsListagem.DataSet.Filtered := False;
+    end
+    else
+    begin
+      // Aplicar o filtro no campo desejado (exemplo: NomeCompleto)
+      dtsListagem.DataSet.Filter := Format('NomeCompleto LIKE ''%%%s%%''', [TextoPesquisa]);
+      dtsListagem.DataSet.Filtered := True;
     end;
   end;
+
 end;
+
 
 function  TfrmCadastroDePessoas.retornaPessoa(): TPessoa;
 var
@@ -277,7 +247,6 @@ begin
     Pessoa.Tipo := cbTipoPessoa.Text;
     Pessoa.NomeCompleto := ledNome.Text;
 
-    // Validar e converter Data de Nascimento
     if ledNascimento.Text <> '' then
       Pessoa.DataNascimento := StrToDate(ledNascimento.Text)
     else
